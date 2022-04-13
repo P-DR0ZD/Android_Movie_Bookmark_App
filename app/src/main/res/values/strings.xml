@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Assignment4</string>
+    <string name="search_a_film">Search a film</string>
+    <string name="search_film">Search Film</string>
 </resources>
