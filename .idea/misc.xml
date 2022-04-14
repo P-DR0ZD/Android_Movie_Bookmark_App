@@ -3,15 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/activity_movie_details.xml" value="0.264" />
+        <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/activity_movie_details.xml" value="0.2" />
         <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/activity_view_watchlist.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/activity_watch_party.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/content_main.xml" value="0.16032608695652173" />
         <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/fragment_first.xml" value="0.16032608695652173" />
         <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/search_movie.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/search_movies.xml" value="0.2" />
-        <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/menu/menu.xml" value="0.2" />
+        <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/layout/search_movies.xml" value="0.264" />
+        <entry key="..\:/Users/piotr/AndroidStudioProjects/Assignment4/app/src/main/res/menu/menu.xml" value="0.1" />
       </map>
     </option>
   </component>

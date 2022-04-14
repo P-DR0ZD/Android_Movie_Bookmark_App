@@ -19,8 +19,8 @@ public class JsonService {
                 Movie movie = new Movie();
                 movie.setId(movieArrayObj.getString("id"));
                 movie.setTitle(movieArrayObj.getString("title"));
-                movie.setDescription(movieArrayObj.getString("type"));
-                movie.setPoster(movieArrayObj.getString("image"));
+                movie.setDescription(movieArrayObj.getString("description"));
+                //movie.setPoster(movieArrayObj.getString("image"));
                 arrayList.add(movie);
             }
         } catch (JSONException e) {
@@ -37,8 +37,13 @@ public class JsonService {
 
             movie.setId(jsonObject.getString("id"));
             movie.setTitle(jsonObject.getString("title"));
-            movie.setDescription(jsonObject.getString("type"));
+            movie.setDescription(jsonObject.getString("year"));
             movie.setPoster(jsonObject.getString("image"));
+            movie.setContentRating(jsonObject.getString("contentRating"));
+            movie.setImdbRating(jsonObject.getString("imDbRating"));
+            movie.setPlot(jsonObject.getString("plot"));
+            movie.setGenre(jsonObject.getString("genres"));
+            movie.setRunTime(jsonObject.getString("runtimeStr"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

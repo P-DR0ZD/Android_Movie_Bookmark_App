@@ -18,7 +18,8 @@ public class NetworkingService {
 
     private String api = "https://imdb-api.com/en/API/";
     private String SearchMovie = "SearchMovie/k_o43qbfm7/";
-    private String SearchTitle = "SearchTitle/k_o43qbfm7/";
+    private String SearchTitle = "Title/k_o43qbfm7/";
+    private String SearchTitleFull = "/FullActor,Posters";
 
     public static ExecutorService networkExecutorService = Executors.newFixedThreadPool(4);
     public static Handler networkingHandler = new Handler(Looper.getMainLooper());
@@ -37,7 +38,7 @@ public class NetworkingService {
 
     public void movieDetail(String id)
     {
-        String url = api + SearchTitle + id;
+        String url = api + SearchTitle + id + SearchTitleFull;
         connect(url);
     }
 

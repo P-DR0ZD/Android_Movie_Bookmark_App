@@ -6,6 +6,11 @@ public class Movie {
     private String title;
     private String description;
     private String poster;
+    private String plot;
+    private String imdbRating;
+    private String contentRating;
+    private String genre;
+    private String runTime;
 
     Movie(){}
 
@@ -48,5 +53,45 @@ public class Movie {
 
     public String getPoster() {
         return poster;
+    }
+
+    public String getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(String imdbRating) {
+        this.imdbRating = imdbRating;
+    }
+
+    public String getContentRating() {
+        return contentRating;
+    }
+
+    public void setContentRating(String contentRating) {
+        this.contentRating = contentRating;
+    }
+
+    public String getPlot() {
+        return plot;
+    }
+
+    public void setPlot(String plot) {
+        this.plot = plot;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(String runTime) {
+        this.runTime = runTime;
     }
 }
