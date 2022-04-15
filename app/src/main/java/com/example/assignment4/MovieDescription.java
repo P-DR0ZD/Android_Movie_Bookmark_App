@@ -21,6 +21,7 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
     ArrayList<Movie> movies = new ArrayList<Movie>();
     Movie data;
     boolean isDuplicate = false;
+    boolean viewedMovie = false;
 
     TextView movieTitle;
     TextView descriptionDetail;
@@ -49,7 +50,12 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
         this.movies = ((MyApp)getApplication()).movies;
         networkingManager.listener = this;
 
-        networkingManager.movieDetail(id);
+        for (int i = 0; i < movies.size(); i++) {
+            if (movies.get(i).imdbID.equals(id)) {
+                viewedMovie = true;
+                data = movies.get(i);
+            }
+        }
 
         dbManager = ((MyApp)getApplication()).dbManager;
         dbManager.getDb(this);
@@ -72,12 +78,37 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
 
         remove = findViewById(R.id.remove);
         remove.setOnClickListener(this);
+
+        if (!viewedMovie)
+            networkingManager.movieDetail(id);
+        else
+            setPage();
     }
 
     @Override
     public void dataListener(String jsonString) {
         data = jsonManager.getMovieDetailsFromJSON(jsonString);
+        setPage();
+    }
 
+    @Override
+    public void imageListener(Bitmap image) {
+        poster.setImageBitmap(image);
+        poster.setVisibility(View.VISIBLE);
+
+        if (!viewedMovie) {
+            save.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            save.setVisibility(View.GONE);
+            remove.setVisibility(View.VISIBLE);
+        }
+        load.setVisibility(View.INVISIBLE);
+    }
+
+    public void setPage()
+    {
         movieTitle.setText(data.getTitle());
         movieTitle.setVisibility(View.VISIBLE);
         descriptionDetail.setText(data.getDescription());
@@ -95,29 +126,6 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
 
         PlotHeader.setVisibility(View.VISIBLE);
         networkingManager.getImageData(data.getPoster());
-    }
-
-    @Override
-    public void imageListener(Bitmap image) {
-        poster.setImageBitmap(image);
-        poster.setVisibility(View.VISIBLE);
-
-        for (int i = 0; i < movies.size(); i++) {
-            Movie tmp = movies.get(i);
-            if (data.getImdbID().equals(tmp.getImdbID())) {
-                isDuplicate = true;
-            }
-        }
-
-        if (!isDuplicate) {
-            save.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            save.setVisibility(View.GONE);
-            remove.setVisibility(View.VISIBLE);
-        }
-        load.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -150,7 +158,7 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
     @Override
     public void onAddDone() {
         ((MyApp)getApplication()).movies.add(data);
-        load.setVisibility(View.INVISIBLE);
+        dbManager.getAllMovies();
     }
 
     @Override

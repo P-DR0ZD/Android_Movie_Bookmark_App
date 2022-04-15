@@ -122,11 +122,11 @@ public class WatchListActivity extends AppCompatActivity implements NetworkingSe
             }
         });
 
-        Button watchPrty = v.findViewById(R.id.watchpartyBtn);
-        watchPrty.setOnClickListener(new View.OnClickListener() {
+        Button viewMovie = v.findViewById(R.id.viewMovieBtn);
+        viewMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WatchParty(movie);
+                viewMovie(movie);
             }
         });
         alert.setView(v);
@@ -134,9 +134,9 @@ public class WatchListActivity extends AppCompatActivity implements NetworkingSe
 
     }
 
-    private void WatchParty(Movie movie) {
-        Intent intent = new Intent(this, WatchPartyActivity.class);
-        //intent.putExtra("movie", movie);
+    private void viewMovie(Movie movie) {
+        Intent intent = new Intent(this,WatchPartyActivity.class);
+        intent.putExtra("movie", movie.getImdbID());
         startActivity(intent);
     }
 

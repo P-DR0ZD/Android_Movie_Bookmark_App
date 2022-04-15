@@ -29,11 +29,11 @@
             android:text="cancel"></Button>
 
         <Button
-            android:id="@+id/watchpartyBtn"
-            android:layout_width="150dp"
-            android:layout_height="63dp"
+            android:id="@+id/viewMovieBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:backgroundTint="#6EA159"
-            android:text="Create Watch Party"></Button>
+            android:text="Watch Party"></Button>
     </LinearLayout>
 
 </LinearLayout>
