@@ -11,21 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MovieAdapter extends
-        RecyclerView.Adapter<MovieAdapter.TasksViewHolder>{
+public class WatchListAdapter extends
+        RecyclerView.Adapter<WatchListAdapter.TasksViewHolder>{
 
     interface moviesClickListener {
-        public void movieClicked(String movie);
+        public void movieClicked(Movie movie);
     }
 
     moviesClickListener listener;
     private Context cntx;
     public List<Movie> movieList;
 
-    public MovieAdapter(Context cntx, List<Movie> movieList) {
+    public WatchListAdapter(Context cntx, List<Movie> movieList) {
         this.cntx = cntx;
         this.movieList = movieList;
-        this.listener = (MainActivity) cntx;
+        this.listener = (WatchListActivity) cntx;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class MovieAdapter extends
         }
             @Override
             public void onClick(View view) {
-                listener.movieClicked(movieList.get(getAdapterPosition()).getImdbID());
+                listener.movieClicked(movieList.get(getAdapterPosition()).getMovie());
             }
     }
 

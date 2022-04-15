@@ -9,11 +9,18 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MovieDescription extends AppCompatActivity implements NetworkingService.NetworkingListener, View.OnClickListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MovieDescription extends AppCompatActivity implements NetworkingService.NetworkingListener, View.OnClickListener
+        , DatabaseManager.DatabaseListener{
 
     NetworkingService networkingManager;
     JsonService jsonManager;
-    Movie movie;
+    DatabaseManager dbManager;
+    ArrayList<Movie> movies = new ArrayList<Movie>();
+    Movie data;
+    boolean isDuplicate = false;
 
     TextView movieTitle;
     TextView descriptionDetail;
@@ -23,10 +30,12 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
     TextView runtime;
     TextView genre;
     TextView load;
+    TextView PlotHeader;
 
     ImageView poster;
 
     Button save;
+    Button remove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +46,13 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
 
         networkingManager = ((MyApp)getApplication()).getNetworkingService();
         jsonManager = ((MyApp)getApplication()).getJsonService();
+        this.movies = ((MyApp)getApplication()).movies;
         networkingManager.listener = this;
 
         networkingManager.movieDetail(id);
+
+        dbManager = ((MyApp)getApplication()).dbManager;
+        dbManager.getDb(this);
 
         movieTitle = findViewById(R.id.movieTitleDetail);
         descriptionDetail = findViewById(R.id.descriptionDetail);
@@ -48,6 +61,7 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
         summaryText = findViewById(R.id.plotText);
         runtime = findViewById(R.id.runtime);
         genre = findViewById(R.id.genre);
+        PlotHeader = findViewById(R.id.PlotHeader);
 
         load = findViewById(R.id.loadMsg);
 
@@ -55,11 +69,14 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
 
         save = findViewById(R.id.save);
         save.setOnClickListener(this);
+
+        remove = findViewById(R.id.remove);
+        remove.setOnClickListener(this);
     }
 
     @Override
     public void dataListener(String jsonString) {
-        Movie data = jsonManager.getMovieDetailsFromJSON(jsonString);
+        data = jsonManager.getMovieDetailsFromJSON(jsonString);
 
         movieTitle.setText(data.getTitle());
         movieTitle.setVisibility(View.VISIBLE);
@@ -76,6 +93,7 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
         genre.setText("Genres: " + data.getGenre());
         genre.setVisibility(View.VISIBLE);
 
+        PlotHeader.setVisibility(View.VISIBLE);
         networkingManager.getImageData(data.getPoster());
     }
 
@@ -84,12 +102,59 @@ public class MovieDescription extends AppCompatActivity implements NetworkingSer
         poster.setImageBitmap(image);
         poster.setVisibility(View.VISIBLE);
 
-        save.setVisibility(View.VISIBLE);
+        for (int i = 0; i < movies.size(); i++) {
+            Movie tmp = movies.get(i);
+            if (data.getImdbID().equals(tmp.getImdbID())) {
+                isDuplicate = true;
+            }
+        }
+
+        if (!isDuplicate) {
+            save.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            save.setVisibility(View.GONE);
+            remove.setVisibility(View.VISIBLE);
+        }
         load.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onClick(View view) {
+        int id = view.getId();
 
+        if (id == save.getId()) {
+            save.setVisibility(View.GONE);
+            load.setVisibility(View.VISIBLE);
+            load.setText("Saving Film To Watch List");
+            dbManager.listener = this;
+            dbManager.saveNewMovie(data);
+        }
+        else if (id == remove.getId())
+        {
+            remove.setVisibility(View.GONE);
+            load.setVisibility(View.VISIBLE);
+            load.setText("Removing Film From Watch List");
+            dbManager.listener = this;
+            dbManager.deleteMovie(data);
+        }
+    }
+
+    @Override
+    public void onListReady(List<Movie> list) {
+        ((MyApp)getApplication()).movies = (ArrayList<Movie>) list;
+        load.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onAddDone() {
+        ((MyApp)getApplication()).movies.add(data);
+        load.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onDeleteDone() {
+        dbManager.getAllMovies();
     }
 }

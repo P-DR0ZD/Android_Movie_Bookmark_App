@@ -17,7 +17,7 @@ public class JsonService {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject movieArrayObj = jsonArray.getJSONObject(i);
                 Movie movie = new Movie();
-                movie.setId(movieArrayObj.getString("id"));
+                movie.setImdbID(movieArrayObj.getString("id"));
                 movie.setTitle(movieArrayObj.getString("title"));
                 movie.setDescription(movieArrayObj.getString("description"));
                 //movie.setPoster(movieArrayObj.getString("image"));
@@ -35,7 +35,7 @@ public class JsonService {
         try {
             JSONObject jsonObject = new JSONObject(json);
 
-            movie.setId(jsonObject.getString("id"));
+            movie.setImdbID(jsonObject.getString("id"));
             movie.setTitle(jsonObject.getString("title"));
             movie.setDescription(jsonObject.getString("year"));
             movie.setPoster(jsonObject.getString("image"));

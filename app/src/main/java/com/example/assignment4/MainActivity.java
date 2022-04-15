@@ -1,14 +1,12 @@
 package com.example.assignment4;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,8 +16,10 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.moviesClickListener, NetworkingService.NetworkingListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.moviesClickListener, NetworkingService.NetworkingListener, View.OnClickListener
+, DatabaseManager.DatabaseListener{
 
     TextView emptyMsg;
     Button watchParty;
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.movi
 
     ArrayList<Movie> movies = new ArrayList<Movie>();
     NetworkingService networkingManager;
+    DatabaseManager dbManager;
     JsonService jsonManager;
     MovieAdapter adapter;
 
@@ -38,11 +39,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.movi
 
         networkingManager = ((MyApp)getApplication()).getNetworkingService();
         jsonManager = ((MyApp)getApplication()).getJsonService();
+        dbManager = ((MyApp)getApplication()).dbManager;
+        dbManager.getDb(this);
+        dbManager.listener = this;
+        dbManager.getAllMovies();
 
         networkingManager.listener = this;
 
         emptyMsg = findViewById(R.id.emptyMsg);
-        watchParty = findViewById(R.id.watchPartyBtn);
+        watchParty = findViewById(R.id.watchListBtn);
         watchParty.setOnClickListener(this);
 
         recyclerView = findViewById(R.id.recycler);
@@ -84,17 +89,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.movi
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if (s.length() >= 3) {
-                    networkingManager.searchMovie(s);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyMsg.setVisibility(View.INVISIBLE);
-                }
-                else {
-                    movies = new ArrayList<>(0);
-                    adapter.movieList = movies;
-                    adapter.notifyDataSetChanged();
-
-                }
                 return false;
             }
         });
@@ -127,6 +121,26 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.movi
 
     @Override
     public void onClick(View view) {
+        Intent intent = new Intent(this, WatchListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onListReady(List<Movie> list) {
+        ((MyApp)getApplication()).movies = (ArrayList<Movie>) list;
+
+        emptyMsg.setText("Search a Film");
+        watchParty.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onAddDone() {
+
+    }
+
+    @Override
+    public void onDeleteDone() {
 
     }
 }

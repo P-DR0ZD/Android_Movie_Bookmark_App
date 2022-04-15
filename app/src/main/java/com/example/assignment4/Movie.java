@@ -1,16 +1,25 @@
 package com.example.assignment4;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Movie {
 
-    private String id;
-    private String title;
-    private String description;
-    private String poster;
-    private String plot;
-    private String imdbRating;
-    private String contentRating;
-    private String genre;
-    private String runTime;
+    @PrimaryKey(autoGenerate = true)
+    int id;
+
+    //movie ID
+    String imdbID;
+    String title;
+    String description;
+    String poster;
+    String plot;
+    String imdbRating;
+    String contentRating;
+    String genre;
+    String runTime;
 
     Movie(){}
 
@@ -20,9 +29,9 @@ public class Movie {
         this.description = description;
     }
 
-    public void setId(String id)
+    public void setImdbID(String imdbID)
     {
-        this.id = id;
+        this.imdbID = imdbID;
     }
 
     public void setTitle(String title)
@@ -39,8 +48,8 @@ public class Movie {
         this.poster = poster;
     }
 
-    public String getId() {
-        return id;
+    public String getImdbID() {
+        return imdbID;
     }
 
     public String getTitle() {
@@ -94,4 +103,6 @@ public class Movie {
     public void setRunTime(String runTime) {
         this.runTime = runTime;
     }
+
+    public Movie getMovie(){return this;}
 }
